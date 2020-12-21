@@ -9,6 +9,7 @@ There are over 2000 board games available at http://www.vassalengine.org/wiki/Ca
 Imperial Assault - http://www.vassalengine.org/wiki/Module:Star_Wars:_Imperial_Assault
 
 Gloomhaven - http://www.vassalengine.org/wiki/Module:Gloomhaven
+![Gloomhaven](img/Gloomhaven.PNG)
 
 Terraforming Mars - http://www.vassalengine.org/wiki/Module:Terraforming_Mars
 
