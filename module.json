@@ -1,0 +1,32 @@
+{
+  "name": "vassal-import",
+  "title": "Vassal Board Game Module Importer",
+  "description": "Allows import and vassal board game modules (vmod).",
+  "version": "0.0.1",
+  "author": "Bryan Livingston",
+  "minimumCoreVersion": "0.7.9",
+  "compatibleCoreVersion": "0.7.9",
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "scripts": [
+    "./lib/jszip/jszip-utils.min.js",
+    "./lib/jszip/jszip.min.js",
+    "./lib/FileSaver.min.js"
+  ],
+  "esmodules": [
+    "./src/main.js"
+  ],
+  "styles": [
+    "./css/vassal-import.css"
+  ],
+  "packs": [],
+  "url": "https://github.com/cstadther/vassal-import",
+  "manifest": "https://raw.githubusercontent.com/cstadther/vassal-import/master/module.json",
+  "download": "https://github.com/cstadther/vassal-import/archive/0.0.1.zip",
+  "license": "MIT"
+}
