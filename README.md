@@ -34,7 +34,7 @@ In order for the import to be re-runnable the existing scenes in the import scen
 
 Foundry defaults to 100px grid images. Some Vassal modules image sets are designed for a 64 pixel grid. Some are set to 75px. You'll need to select that as an option, which hasn't been added yet. Or maybe you could set it on the scenes.
 
-This module code base was originally from Adventure Import Export (https://github.com/cstadther/vassal-import).
+This module code base was originally from Adventure Import Export (https://github.com/cstadther/adventure-import-export).
 
 This module is not yet robust.
 
