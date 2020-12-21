@@ -166,7 +166,8 @@ export default class VassalModuleImport extends FormApplication {
 
         var folder = await this.createOrGetFolder("Scene", this.adventure.name);
         var mapName = map.getAttribute("mapName");
-        var data = { name: mapName, active: true, navigation: false, folder: folder.id };
+        var data = {
+            name: mapName, active: true, navigation: false, folder: folder.id, permission: { default: 3 } };
 
         for (const board of map.querySelectorAll(CSS.escape("VASSAL.build.module.map.boardPicker.Board"))) {
             // todo: create a scene for each image in this loop
