@@ -87,8 +87,8 @@ export default class Helpers {
     if(itempath) {
       let path = decodeURI(itempath);
 
-      if(CONFIG.AIE.TEMPORARY[itempath]) {
-        return CONFIG.AIE.TEMPORARY[itempath];
+      if(CONFIG.VASSALIMPORT.TEMPORARY[itempath]) {
+        return CONFIG.VASSALIMPORT.TEMPORARY[itempath];
       } else {
         let isDataImage = true;
         try {
@@ -96,7 +96,7 @@ export default class Helpers {
           const filename = path.replace(/^.*[\\\/]/, '')
   
           await zip.folder(type).folder(imageType).folder(id).file(filename, img, {binary:true});
-          CONFIG.AIE.TEMPORARY[itempath] = `${type}/${imageType}/${id}/${filename}`;
+          CONFIG.VASSALIMPORT.TEMPORARY[itempath] = `${type}/${imageType}/${id}/${filename}`;
           return `${type}/${imageType}/${id}/${filename}`;
         } catch (err) {
           Helpers.logger.debug(`Warning during ${imageType} export. ${itempath} is not in the data folder or could be a core image.`);
@@ -121,14 +121,14 @@ export default class Helpers {
         return path.replace(/\*/g, "");
       } else {
         let adventurePath = (adventure.name).replace(/[^a-z0-9]/gi, '_');
-        if(!CONFIG.AIE.TEMPORARY.import[path]) {
+        if(!CONFIG.VASSALIMPORT.TEMPORARY.import[path]) {
           let filename = path.replace(/^.*[\\\/]/, '').replace(/\?(.*)/, '');
           
             await Helpers.verifyPath("data", `worlds/${game.world.name}/vassal/${adventurePath}/${path.replace(filename, "")}`);
           const img = await zip.file(path).async("uint8array");
           const i = new File([img], filename);
             await Helpers.UploadFile("data", `worlds/${game.world.name}/vassal/${adventurePath}/${path.replace(filename, "")}`, i, { bucket: null })
-          CONFIG.AIE.TEMPORARY.import[path] = true;
+          CONFIG.VASSALIMPORT.TEMPORARY.import[path] = true;
         } else {
           Helpers.logger.debug(`File already imported ${path}`);  
         }
@@ -284,12 +284,12 @@ export default class Helpers {
 
       if(!newfolder) {
         if(folderData.parent !== null) {
-          folderData.parent = CONFIG.AIE.TEMPORARY.folders[folderData.parent];
+          folderData.parent = CONFIG.VASSALIMPORT.TEMPORARY.folders[folderData.parent];
         } else {
           if(adventure?.options?.folders) {
-            folderData.parent = CONFIG.AIE.TEMPORARY.folders["null"];
+            folderData.parent = CONFIG.VASSALIMPORT.TEMPORARY.folders["null"];
           } else {
-            folderData.parent = CONFIG.AIE.TEMPORARY.folders[folderData.type];
+            folderData.parent = CONFIG.VASSALIMPORT.TEMPORARY.folders[folderData.type];
           }
         }
 
@@ -297,7 +297,7 @@ export default class Helpers {
         Helpers.logger.debug(`Created new folder ${newfolder.data._id} with data:`, folderData, newfolder);
       }
 
-      CONFIG.AIE.TEMPORARY.folders[folderData.flags.importid] = newfolder.data._id;
+      CONFIG.VASSALIMPORT.TEMPORARY.folders[folderData.flags.importid] = newfolder.data._id;
       
       let childFolders = folderList.filter(folder => { return folder.parent === folderData._id });
 
@@ -426,13 +426,13 @@ export default class Helpers {
 
   static logger = {
     log : (...args) => {
-      console.log(`${CONFIG.AIE.module} | `, ...args);
+      console.log(`${CONFIG.VASSALIMPORT.module} | `, ...args);
     },
     debug: (...args) => {
-      console.debug(`${CONFIG.AIE.module} | `, ...args);
+      console.debug(`${CONFIG.VASSALIMPORT.module} | `, ...args);
     },
     warn: (...args) => {
-      console.warn(`${CONFIG.AIE.module} | `, ...args);
+      console.warn(`${CONFIG.VASSALIMPORT.module} | `, ...args);
     },
     error: (...args) => {
       console.error(`${CONFIG.module} | `, ...args, new Error().stack);
