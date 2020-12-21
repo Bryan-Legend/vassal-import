@@ -4,6 +4,8 @@ A module for importing Vassal Board Game VMod files into Foundry.
 
 There are over 2000 board games available at http://www.vassalengine.org/wiki/Category:Modules.
 
+**MANIFEST URL: https://raw.githubusercontent.com/Bryan-Legend/vassal-import/master/module.json**
+
 ### Screenshots
 
 Imperial Assault - http://www.vassalengine.org/wiki/Module:Star_Wars:_Imperial_Assault
