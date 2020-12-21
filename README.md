@@ -44,7 +44,6 @@ This module code base was originally from Adventure Import Export (https://githu
 
 ## Todo
 
-* Many, many bug fixes.
 * Pixel scale option
 * Status progress bar updates
 * Dice so Nice integration
