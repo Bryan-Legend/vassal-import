@@ -38,8 +38,6 @@ Foundry defaults to 100px grid images. Some Vassal modules image sets are design
 
 This module code base was originally from Adventure Import Export (https://github.com/cstadther/adventure-import-export).
 
-This module is not yet robust.
-
 ## Recommended Modules
 
 * Moar Folders (https://github.com/KayelGee/moar-folders) - Actor imports are often many levels deep and Foundry has a limitation of 3 folder depth. Six seems to be enough. The data will import correctly but once you pass 3 folders it will start spamming the root folder heavily. Turning on this mod will fix.
