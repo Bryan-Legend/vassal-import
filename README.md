@@ -2,7 +2,7 @@
 
 A module for importing Vassal Board Game VMod files into Foundry.
 
-There are over 2300 board games available at http://www.vassalengine.org/wiki/Category:Modules. The modules listed there have the full consent of the board game publishers.
+There are over 2300 board games available at http://www.vassalengine.org/wiki/Category:Modules. The modules listed there have the consent of the board game publishers.
 
 **MANIFEST URL: https://raw.githubusercontent.com/Bryan-Legend/vassal-import/master/module.json**
 
@@ -26,6 +26,8 @@ Arkham Horror - http://www.vassalengine.org/wiki/Module:Arkham_Horror
 
 Dominion - http://www.vassalengine.org/wiki/Module:Dominion
 ![Dominion](img/Dominion.PNG)
+
+Star Wars: X-Wing Miniatures Game - http://www.vassalengine.org/wiki/Module:Star_Wars:_X-Wing_Miniatures_Game
 
 ## How To Use
 
