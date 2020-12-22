@@ -2,7 +2,7 @@
 
 A module for importing Vassal Board Game VMod files into Foundry.
 
-There are over 2000 board games available at http://www.vassalengine.org/wiki/Category:Modules.
+There are over 2300 board games available at http://www.vassalengine.org/wiki/Category:Modules. The modules listed there have the full consent of the board game publishers.
 
 **MANIFEST URL: https://raw.githubusercontent.com/Bryan-Legend/vassal-import/master/module.json**
 
@@ -27,7 +27,7 @@ Arkham Horror - http://www.vassalengine.org/wiki/Module:Arkham_Horror
 Dominion - http://www.vassalengine.org/wiki/Module:Dominion
 ![Dominion](img/Dominion.PNG)
 
-## How To Use:
+## How To Use
 
 ### Import
 
@@ -59,7 +59,6 @@ This module code base was originally from Adventure Import Export (https://githu
 * playlist generator for audio
 * maybe use extracted fonts somehow
 * Recommend a default game system. Maybe do some stat importing or something.
-* a toggle for unzipping files (mostly as a dev option)
 * macro importing (lol)
 * direct downloading vmods via url.
 * Add a scene for each map picker option.
