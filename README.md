@@ -16,12 +16,16 @@ Gloomhaven - http://www.vassalengine.org/wiki/Module:Gloomhaven
 Terraforming Mars - http://www.vassalengine.org/wiki/Module:Terraforming_Mars
 
 Go - http://www.vassalengine.org/wiki/Module:Go
+![Go](img/Go.PNG)
 
 Twilight Imperium - http://www.vassalengine.org/wiki/Module:Twilight_Imperium_(third_Edition)
 
 Twilight Struggle - http://www.vassalengine.org/wiki/Module:Twilight_Struggle
 
 Arkham Horror - http://www.vassalengine.org/wiki/Module:Arkham_Horror
+
+Dominion - http://www.vassalengine.org/wiki/Module:Dominion
+![Dominion](img/Dominion.PNG)
 
 ## How To Use:
 
@@ -34,27 +38,28 @@ To import a file, first install the module and go to the module settings to set 
 Importing will create a scene and actor folder of the name of the module.
 In order for the import to be re-runnable the existing scenes in the import scene folder will be deleted.
 
-Foundry defaults to 100px grid images. Some Vassal modules image sets are designed for a 64 pixel grid. Some are set to 75px. You'll need to select that as an option, which hasn't been added yet. Or maybe you could set it on the scenes.
+Foundry defaults to 100px grid images. Some Vassal modules image sets are designed for a 64 pixel grid. Some are set to 75px. You'll need to select that as an option, or maybe you could set it on the scenes.
 
 This module code base was originally from Adventure Import Export (https://github.com/cstadther/adventure-import-export).
 
 ## Recommended Modules
 
-* Moar Folders (https://github.com/KayelGee/moar-folders) - Actor imports are often many levels deep and Foundry has a limitation of 3 folder depth. Six seems to be enough. The data will import correctly but once you pass 3 folders it will start spamming the root folder heavily. Turning on this mod will fix.
+* Moar Folders (https://github.com/KayelGee/moar-folders) - Actor imports are often several levels deep and Foundry has a limitation of 3 folder depth. Six seems to be enough. The data will import correctly but once you pass 3 folders it will start spamming the root folder heavily. Turning on this mod will fix.
 
 ## Todo
 
-* Pixel scale option
+* Convert to typescript!
 * Status progress bar updates
 * Dice so Nice integration
 * Cards Support integration
 * .vsav file format import for better scene data
-* prototype import for better scene data
+* prototype import for better token data
 * gif image conversion to webp since foundry does not support gif at all
 * image size extraction for better token sizing
-* playlist generator
+* playlist generator for audio
 * maybe use extracted fonts somehow
 * Recommend a default game system. Maybe do some stat importing or something.
 * a toggle for unzipping files (mostly as a dev option)
 * macro importing (lol)
 * direct downloading vmods via url.
+* Add a scene for each map picker option.

@@ -134,9 +134,6 @@ export default class VassalModuleImport extends FormApplication {
             await this.addActors(dataArray, child, folder);
         }
 
-        // todo: add this as an option
-        const mapPixelsPerUnit = 75;
-
         for (const child of xml.querySelectorAll(":scope > " + CSS.escape("VASSAL.build.widget.PieceSlot"))) {
             var data = {
                 type: "character",
@@ -145,8 +142,8 @@ export default class VassalModuleImport extends FormApplication {
                 folder: folder.id,
             };
             var token = {
-                width: child.getAttribute("width") / mapPixelsPerUnit,
-                height: child.getAttribute("height") / mapPixelsPerUnit,
+                width: child.getAttribute("width") / this.mapPixelsPerUnit,
+                height: child.getAttribute("height") / this.mapPixelsPerUnit,
             };
 
             if (token.width > 0 && token.height > 0) {
@@ -161,13 +158,36 @@ export default class VassalModuleImport extends FormApplication {
         }
     }
 
+
+    addToken(dataArray, stack, token) {
+        var data = {
+            name: stack.getAttribute("name"),
+            img: this.extractImage(token.innerHTML),
+            x: stack.getAttribute("x"),
+            y: stack.getAttribute("y"),
+        };
+        if (token.getAttribute("width") > 0) {
+            data.width = token.getAttribute("width") / this.mapPixelsPerUnit;
+        } else {
+            if (stack.getAttribute("width") > 0)
+                data.width = stack.getAttribute("width") / this.mapPixelsPerUnit;
+        }
+        if (token.getAttribute("height") > 0) {
+            data.height = token.getAttribute("height") / this.mapPixelsPerUnit;
+        } else {
+            if (stack.getAttribute("height") > 0)
+                data.height = stack.getAttribute("height") / this.mapPixelsPerUnit;
+        }
+        dataArray.push(data);
+    }
+
     async importScene(map) {
-        //console.log(map);
+        console.log(map);
 
         var folder = await this.createOrGetFolder("Scene", this.adventure.name);
         var mapName = map.getAttribute("mapName");
-        var data = {
-            name: mapName, active: true, navigation: false, folder: folder.id, permission: { default: 3 } };
+
+        var data = { name: mapName, navigation: false, folder: folder.id, permission: { default: 3 }, tokenVision: false };
 
         for (const board of map.querySelectorAll(CSS.escape("VASSAL.build.module.map.boardPicker.Board"))) {
             // todo: create a scene for each image in this loop
@@ -192,57 +212,35 @@ export default class VassalModuleImport extends FormApplication {
             await existing.delete();
         }
 
-        console.log(data);
-        console.log(`Creating Scene ${mapName} ` + data.img);
-
-        let newScene = await Scene.create(data);
-        console.log(newScene);
 
         let dataArray = [];
-
         for (const stack of map.querySelectorAll(CSS.escape("VASSAL.build.module.map.SetupStack"))) {
             for (const token of stack.querySelectorAll(CSS.escape("VASSAL.build.widget.PieceSlot"))) {
-                var data = {
-                    scene: newScene,
-                    name: stack.getAttribute("name"),
-                    img: this.extractImage(token.innerHTML),
-                    x: stack.getAttribute("x"),
-                    y: stack.getAttribute("y"),
-                };
-                if (token.getAttribute("width") > 0)
-                    data.width = token.getAttribute("width");
-                if (token.getAttribute("height") > 0)
-                    data.width = token.getAttribute("height");
-                dataArray.push(data);
+                this.addToken(dataArray, stack, token);
             }
         }
 
         for (const stack of map.querySelectorAll(CSS.escape("VASSAL.build.module.map.DrawPile"))) {
+            for (const token of stack.querySelectorAll(CSS.escape("VASSAL.build.widget.CardSlot"))) {
+                this.addToken(dataArray, stack, token);
+            }
             for (const token of stack.querySelectorAll(CSS.escape("VASSAL.build.widget.PieceSlot"))) {
-                var data = {
-                    scene: newScene,
-                    name: stack.getAttribute("name"),
-                    img: this.extractImage(token.innerHTML),
-                    x: stack.getAttribute("x"),
-                    y: stack.getAttribute("y"),
-                };
-                if (token.getAttribute("width") > 0)
-                    data.width = token.getAttribute("width");
-                if (token.getAttribute("height") > 0)
-                    data.width = token.getAttribute("height");
-                dataArray.push(data);
+                this.addToken(dataArray, stack, token);
             }
         }
 
-        for (var data in dataArray) {
-            if (data.width <= 0)
-                data.width = null;
-            if (data.height <= 0)
-                data.height = null;
+        for (var tokenData in dataArray) {
+            if (tokenData.width <= 0)
+                tokenData.width = null;
+            if (tokenData.height <= 0)
+                tokenData.height = null;
         }
-        console.log(dataArray);
 
-        await Token.create(dataArray);
+        data.tokens = dataArray;
+
+        console.log(data);
+        console.log(`Creating Scene ${mapName} ` + data.img);
+        await Scene.create(data);
     }
 
     async _dialogButton(event) {
@@ -287,13 +285,16 @@ export default class VassalModuleImport extends FormApplication {
                     import: {}
                 };
 
+                this.mapPixelsPerUnit = game.settings.get("vassal-import", "mapPixelsPerUnit");
+
+
                 //var removeFolder = await this.createOrGetFolder("Actor", this.adventure.name);
                 //await removeFolder.delete();
                 //removeFolder = await this.createOrGetFolder("Scene", this.adventure.name);
                 //await removeFolder.delete();
 
-                // TODO: Add a flag to make extraction optional for dev
-                await this._extractZip(zip, adventure);
+                if (game.settings.get("vassal-import", "extractFiles"))
+                    await this._extractZip(zip, adventure);
 
                 var parser = new DOMParser();
 
