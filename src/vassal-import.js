@@ -133,6 +133,9 @@ export default class VassalModuleImport extends FormApplication {
         for (const child of xml.querySelectorAll(":scope > " + CSS.escape("VASSAL.build.widget.ListWidget"))) {
             await this.addActors(dataArray, child, folder);
         }
+        for (const child of xml.querySelectorAll(":scope > " + CSS.escape("VASSAL.build.widget.BoxWidget"))) {
+            await this.addActors(dataArray, child, folder);
+        }
 
         for (const child of xml.querySelectorAll(":scope > " + CSS.escape("VASSAL.build.widget.PieceSlot"))) {
             var data = {
@@ -319,6 +322,9 @@ export default class VassalModuleImport extends FormApplication {
                 }
 
                 for (const map of build.querySelectorAll(CSS.escape("VASSAL.build.module.Map"))) {
+                    await this.importScene(map);
+                }
+                for (const map of build.querySelectorAll(CSS.escape("VASSAL.build.module.PrivateMap"))) {
                     await this.importScene(map);
                 }
 
