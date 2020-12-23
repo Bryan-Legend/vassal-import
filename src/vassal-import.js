@@ -75,7 +75,7 @@ export default class VassalModuleImport extends FormApplication {
         // for now we just skip all that shit and take the last that looks like an image.
 
         var image;
-        var parts = text.split(';');
+        var parts = text.split(/[;,]+/); // split by ; and ,
 
         // TODO: convert .gif to .png files FML
         // part.endsWith(".gif") ||
@@ -161,13 +161,12 @@ export default class VassalModuleImport extends FormApplication {
         }
     }
 
-
     addToken(dataArray, stack, token) {
         var data = {
             name: stack.getAttribute("name"),
             img: this.extractImage(token.innerHTML),
-            x: stack.getAttribute("x"),
-            y: stack.getAttribute("y"),
+            x: parseFloat(stack.getAttribute("x")),
+            y: parseFloat(stack.getAttribute("y")),
         };
         if (token.getAttribute("width") > 0) {
             data.width = token.getAttribute("width") / this.mapPixelsPerUnit;
@@ -184,6 +183,36 @@ export default class VassalModuleImport extends FormApplication {
         dataArray.push(data);
     }
 
+    rgbToHex(color) {
+        if (!color)
+            return color;
+
+        color = "" + color;
+        if (color.charAt(0) == "#") {
+            return color;
+        }
+
+        var nums = /(.*?)(\d+),\s*(\d+),\s*(\d+)/i.exec(color),
+            r = parseInt(nums[2], 10).toString(16),
+            g = parseInt(nums[3], 10).toString(16),
+            b = parseInt(nums[4], 10).toString(16);
+
+        return "#" + (
+            (r.length == 1 ? "0" + r : r) +
+            (g.length == 1 ? "0" + g : g) +
+            (b.length == 1 ? "0" + b : b)
+        );
+    }
+
+    getMeta(url) {
+        return new Promise((resolve, reject) => {
+            let img = new Image();
+            img.onload = () => resolve(img);
+            img.onerror = () => reject();
+            img.src = url;
+        });
+    }
+
     async importScene(map) {
         console.log(map);
 
@@ -191,21 +220,36 @@ export default class VassalModuleImport extends FormApplication {
         var mapName = map.getAttribute("mapName");
 
         var data = { name: mapName, navigation: false, folder: folder.id, permission: { default: 3 }, tokenVision: false };
+        var color = map.getAttribute("backgroundcolor");
+        if (color && color != "255,255,255")
+            data.backgroundColor = this.rgbToHex(color);
 
+        // todo: create a scene for each image in this loop
         for (const board of map.querySelectorAll(CSS.escape("VASSAL.build.module.map.boardPicker.Board"))) {
-            // todo: create a scene for each image in this loop
-            var width = board.getAttribute("width");
-            if (width > 0)
-                data.width = width;
-            var height = board.getAttribute("height");
-            if (height > 0)
-                data.width = height;
-            var color = board.getAttribute("color");
-            data.color = color;
-
             var image = board.getAttribute("image");
             if (image !== undefined && image !== null && !image.endsWith(".gif")) // todo: GIF image conversion
+            {
                 data.img = this.adventure.path + "/images/" + image;
+
+                let img = await this.getMeta(data.img);
+                data.width = img.width;
+                data.height = img.height; 
+            }
+
+            var width = board.getAttribute("width");
+            if (width > 0) {
+                data.width = width;
+            } else {
+                if (!data.width)
+                    data.width = 4000;
+            }
+            var height = board.getAttribute("height");
+            if (height > 0) {
+                data.height = height;
+            } else {
+                if (!data.height)
+                    data.height = 3000;
+            }
 
             break;
         }
@@ -214,7 +258,6 @@ export default class VassalModuleImport extends FormApplication {
         if (existing) {
             await existing.delete();
         }
-
 
         let dataArray = [];
         for (const stack of map.querySelectorAll(CSS.escape("VASSAL.build.module.map.SetupStack"))) {
@@ -231,8 +274,10 @@ export default class VassalModuleImport extends FormApplication {
                 this.addToken(dataArray, stack, token);
             }
         }
+        for (var tokenData of dataArray) {
+            tokenData.x += data.width * 0.25;
+            tokenData.y += data.height * 0.25;
 
-        for (var tokenData in dataArray) {
             if (tokenData.width <= 0)
                 tokenData.width = null;
             if (tokenData.height <= 0)
@@ -241,9 +286,10 @@ export default class VassalModuleImport extends FormApplication {
 
         data.tokens = dataArray;
 
-        console.log(data);
         console.log(`Creating Scene ${mapName} ` + data.img);
-        await Scene.create(data);
+        var newScene = await Scene.create(data);
+        console.log(data);
+        console.log(newScene);
     }
 
     async _dialogButton(event) {
