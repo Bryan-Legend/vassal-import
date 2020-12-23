@@ -52,16 +52,15 @@ This module code base was originally from Adventure Import Export (https://githu
 ## Todo
 
 * Convert to typescript!
-* Status progress bar updates
 * Dice so Nice integration
 * Cards Support integration
 * .vsav file format import for better scene data
 * prototype import for better token data
 * gif image conversion to webp since foundry does not support gif at all
-* image size extraction for better token sizing
 * playlist generator for audio
 * maybe use extracted fonts somehow
 * Recommend a default game system. Maybe do some stat importing or something.
 * macro importing (lol)
 * direct downloading vmods via url.
 * Add a scene for each map picker option.
+* Import grid config data.

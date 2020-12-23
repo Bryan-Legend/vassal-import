@@ -208,6 +208,9 @@ export default class VassalModuleImport extends FormApplication {
             x: parseFloat(stack.getAttribute("x")),
             y: parseFloat(stack.getAttribute("y")),
         };
+        var entryName = token.getAttribute("entryName");
+        if (entryName)
+            data.name = entryName;
         if (token.getAttribute("width") > 0) {
             data.width = token.getAttribute("width") / this.mapPixelsPerUnit;
         } else {
@@ -309,13 +312,36 @@ export default class VassalModuleImport extends FormApplication {
         }
 
         for (const stack of map.querySelectorAll(CSS.escape("VASSAL.build.module.map.DrawPile"))) {
+            var cardArray = [];
             for (const token of stack.querySelectorAll(CSS.escape("VASSAL.build.widget.CardSlot"))) {
                 this.addToken(dataArray, stack, token);
+                this.addToken(cardArray, stack, token);
+            }
+            if (cardArray.length > 0) {
+                var deckFolder = await this.createOrGetFolder("JournalEntry", "Decks");
+
+                // Card support doesn't allow nested folders
+                //deckFolder = await this.createOrGetFolder("JournalEntry", this.adventure.name, deckFolder);
+
+                deckFolder = await this.createOrGetFolder("JournalEntry", stack.getAttribute("name"), deckFolder);
+                for (var card of cardArray) {
+                    card.folder = deckFolder.id;
+                    card.flags = {
+                        world: {
+                            cardData: {},
+                            cardBack: card.img,
+                            cardMacros: {}
+                        }
+                    };
+                }
+
+                await JournalEntry.create(cardArray);
             }
             for (const token of stack.querySelectorAll(CSS.escape("VASSAL.build.widget.PieceSlot"))) {
                 this.addToken(dataArray, stack, token);
             }
         }
+
         for (var tokenData of dataArray) {
             tokenData.x += data.width * 0.25;
             tokenData.y += data.height * 0.25;
@@ -377,9 +403,6 @@ export default class VassalModuleImport extends FormApplication {
                 };
 
                 this.mapPixelsPerUnit = game.settings.get("vassal-import", "mapPixelsPerUnit");
-
-                //var removeFolder = await this.createOrGetFolder("Actor", this.adventure.name);
-                //await removeFolder.delete();
 
                 if (game.settings.get("vassal-import", "extractFiles")) {
                     await this._extractZip(zip, adventure);
