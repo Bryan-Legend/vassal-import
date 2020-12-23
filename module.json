@@ -2,7 +2,7 @@
   "name": "vassal-import",
   "title": "Vassal Board Game Module Importer",
   "description": "Import Vassal board game .vmod modules into Foundry. Over 2300 board games available at http://www.vassalengine.org/wiki/Category:Modules. Modules there have the consent of the board game publishers.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "Bryan Livingston",
   "minimumCoreVersion": "0.7.9",
   "compatibleCoreVersion": "0.7.9",
@@ -27,6 +27,6 @@
   "packs": [],
   "url": "https://github.com/Bryan-Legend/vassal-import",
   "manifest": "https://raw.githubusercontent.com/Bryan-Legend/vassal-import/master/module.json",
-  "download": "https://github.com/Bryan-Legend/vassal-import/releases/download/0.0.3/vassal-import.0.0.3.zip",
+  "download": "https://github.com/Bryan-Legend/vassal-import/releases/download/0.0.4/vassal-import.0.0.4.zip",
   "license": "MIT"
 }
