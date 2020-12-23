@@ -8,7 +8,7 @@ There are over 2300 board games available at http://www.vassalengine.org/wiki/Ca
 
 ### Screenshots
 
-Imperial Assault - http://www.vassalengine.org/wiki/Module:Star_Wars:_Imperial_Assault
+Star Wars: Imperial Assault - http://www.vassalengine.org/wiki/Module:Star_Wars:_Imperial_Assault
 
 Gloomhaven - http://www.vassalengine.org/wiki/Module:Gloomhaven
 ![Gloomhaven](img/Gloomhaven.PNG)
@@ -21,6 +21,7 @@ Go - http://www.vassalengine.org/wiki/Module:Go
 Twilight Imperium - http://www.vassalengine.org/wiki/Module:Twilight_Imperium_(third_Edition)
 
 Twilight Struggle - http://www.vassalengine.org/wiki/Module:Twilight_Struggle
+![Twilight Struggle](img/Twilight+Struggle.PNG)
 
 Arkham Horror - http://www.vassalengine.org/wiki/Module:Arkham_Horror
 

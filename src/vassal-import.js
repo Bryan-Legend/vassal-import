@@ -83,7 +83,7 @@ export default class VassalModuleImport extends FormApplication {
         if (Array.isArray(parts)) {
             parts.forEach(part => {
                 if (part.endsWith(".png") || part.endsWith(".jpg") || part.endsWith(".jpeg") || part.endsWith(".svg")) {
-                    image = this.adventure.path + "/images/" + part;
+                    image = this.adventure.path + "/images/" + encodeURIComponent(part);
                 };
             });
         }
@@ -229,7 +229,7 @@ export default class VassalModuleImport extends FormApplication {
             var image = board.getAttribute("image");
             if (image !== undefined && image !== null && !image.endsWith(".gif")) // todo: GIF image conversion
             {
-                data.img = this.adventure.path + "/images/" + image;
+                data.img = this.adventure.path + "/images/" + encodeURIComponent(image);
 
                 let img = await this.getMeta(data.img);
                 data.width = img.width;
