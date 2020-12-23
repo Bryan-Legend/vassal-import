@@ -21,7 +21,7 @@ Go - http://www.vassalengine.org/wiki/Module:Go
 Twilight Imperium - http://www.vassalengine.org/wiki/Module:Twilight_Imperium_(third_Edition)
 
 Twilight Struggle - http://www.vassalengine.org/wiki/Module:Twilight_Struggle
-![Twilight Struggle](img/Twilight+Struggle.PNG)
+![Twilight Struggle](img/Twilight Struggle.PNG)
 
 Arkham Horror - http://www.vassalengine.org/wiki/Module:Arkham_Horror
 
