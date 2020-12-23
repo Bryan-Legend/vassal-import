@@ -22,7 +22,7 @@ export default class VassalModuleImport extends FormApplication {
 
         try {
             if (Helpers.verifyPath("data", importpath)) {
-                data = await Helpers.BrowseFiles("data", importpath, { bucket: null, extensions: [".vmod", ".VMOD"], wildcard: false })
+                data = await Helpers.BrowseFiles("data", importpath, { bucket: null, extensions: [".vmod", ".VMOD", ".vmdx", ".VMDX"], wildcard: false })
                 files = data.files.map(file => {
                     const filename = decodeURIComponent(file).replace(/^.*[\\\/]/, '')
 
@@ -96,21 +96,65 @@ export default class VassalModuleImport extends FormApplication {
         }
 
         var result = await game.folders.entities.find(f => f.type == type && f.data.name == name && f.parent === parentFolder);
-        //console.log(result);
         if (result === undefined) {
             console.log("Creating folder " + name + " in parent " + parentFolder?.name);
-            var data = { name: name, type: type, parent: null };
+            var data = { name: name, type: type, parent: null, sorting: "m", permission: { default: 2 } };
             if (parentFolder !== null)
                 data.parent = parentFolder.id;
             result = await Folder.create(data);
         }
 
-        //console.log(result);
         return result;
     }
 
+    async addJournals(dataArray, xml, parentFolder = undefined) {
+        if (parentFolder === undefined)
+            parentFolder = await this.createOrGetFolder("JournalEntry", this.adventure.name);
+
+        var name = xml.getAttribute("name");
+        if (!name)
+            name = xml.getAttribute("entryName");
+
+        var folder;
+        if (!name || parentFolder.name == name)
+            folder = parentFolder;
+        else
+            folder = await this.createOrGetFolder("JournalEntry", name, parentFolder);
+
+        for (const child of xml.querySelectorAll(":scope > " + CSS.escape("VASSAL.build.widget.PanelWidget"))) {
+            await this.addJournals(dataArray, child, folder);
+        }
+        for (const child of xml.querySelectorAll(":scope > " + CSS.escape("VASSAL.build.widget.TabWidget"))) {
+            await this.addJournals(dataArray, child, folder);
+        }
+        for (const child of xml.querySelectorAll(":scope > " + CSS.escape("VASSAL.build.widget.ListWidget"))) {
+            await this.addJournals(dataArray, child, folder);
+        }
+        for (const child of xml.querySelectorAll(":scope > " + CSS.escape("VASSAL.build.widget.BoxWidget"))) {
+            await this.addJournals(dataArray, child, folder);
+        }
+
+        for (const child of xml.querySelectorAll(":scope > " + CSS.escape("VASSAL.build.widget.Chart"))) {
+            var data = {
+                name: child.getAttribute("chartName"),
+                img: this.adventure.path + "/images/" + encodeURIComponent(child.getAttribute("fileName")),
+                folder: folder.id,
+                permission: { default: 2 },
+            };
+            dataArray.push(data);
+        }
+        for (const child of xml.querySelectorAll(":scope > " + CSS.escape("VASSAL.build.widget.HtmlChart"))) {
+            var data = {
+                name: child.getAttribute("chartName"),
+                content: "<p><a href=\"" + this.adventure.path + "/" + encodeURIComponent(child.getAttribute("fileName")) + "\">" + child.getAttribute("chartName") + "</a></p>",
+                folder: folder.id,
+                permission: { default: 2 },
+            };
+            dataArray.push(data);
+        }
+    }
+
     async addActors(dataArray, xml, parentFolder = undefined) {
-        //console.log(xml);
         if (parentFolder === undefined)
             parentFolder = await this.createOrGetFolder("Actor", this.adventure.name);
 
@@ -143,6 +187,7 @@ export default class VassalModuleImport extends FormApplication {
                 name: child.getAttribute("entryName"),
                 img: this.extractImage(child.innerHTML),
                 folder: folder.id,
+                permission: { default: 2 },
             };
             var token = {
                 width: child.getAttribute("width") / this.mapPixelsPerUnit,
@@ -151,11 +196,6 @@ export default class VassalModuleImport extends FormApplication {
 
             if (token.width > 0 && token.height > 0) {
                 data.token = token;
-                //if (token.width != 1) {
-                //    console.log(child.getAttribute("width"));
-                //    console.log(mapPixelsPerUnit);
-                //    console.log(token.width);
-                //}
             }
             dataArray.push(data);
         }
@@ -204,11 +244,11 @@ export default class VassalModuleImport extends FormApplication {
         );
     }
 
-    getMeta(url) {
+    getImageFromUrl(url) {
         return new Promise((resolve, reject) => {
             let img = new Image();
             img.onload = () => resolve(img);
-            img.onerror = () => reject();
+            img.onerror = () => resolve(undefined);
             img.src = url;
         });
     }
@@ -231,9 +271,11 @@ export default class VassalModuleImport extends FormApplication {
             {
                 data.img = this.adventure.path + "/images/" + encodeURIComponent(image);
 
-                let img = await this.getMeta(data.img);
-                data.width = img.width;
-                data.height = img.height; 
+                let img = await this.getImageFromUrl(data.img);
+                if (img) {
+                    data.width = img.width;
+                    data.height = img.height;
+                }
             }
 
             var width = board.getAttribute("width");
@@ -336,41 +378,58 @@ export default class VassalModuleImport extends FormApplication {
 
                 this.mapPixelsPerUnit = game.settings.get("vassal-import", "mapPixelsPerUnit");
 
-
                 //var removeFolder = await this.createOrGetFolder("Actor", this.adventure.name);
                 //await removeFolder.delete();
-                //removeFolder = await this.createOrGetFolder("Scene", this.adventure.name);
-                //await removeFolder.delete();
 
-                if (game.settings.get("vassal-import", "extractFiles"))
+                if (game.settings.get("vassal-import", "extractFiles")) {
                     await this._extractZip(zip, adventure);
+                }
 
                 var parser = new DOMParser();
 
                 if (zip.file("moduledata")) {
                     var module = parser.parseFromString(await zip.file("moduledata").async("text"), "text/xml");
-                    //console.log(module);
                     adventure.name = module.querySelector("name").innerHTML;
                 }
                 console.log(adventure);
 
                 var build = parser.parseFromString(await zip.file("buildFile").async("text"), "text/xml");
-
-                //                CONFIG.VASSALIMPORT.LAST = build;
-
                 console.log(build);
 
-                for (const pieceWindow of build.querySelectorAll(CSS.escape("VASSAL.build.module.PieceWindow"))) {
+                const actorTotal = 2;
+                this._updateProgress(actorTotal, 0, "Actors");
+                for (const window of build.querySelectorAll(CSS.escape("VASSAL.build.module.PieceWindow"))) {
                     let dataArray = [];
-                    await this.addActors(dataArray, pieceWindow);
-                    console.log(dataArray.length + " pieces found");
+                    await this.addActors(dataArray, window);
+                    await Actor.create(dataArray);
+                }
+                this._updateProgress(actorTotal, 1, "Actors");
+                for (const window of build.querySelectorAll(CSS.escape("VASSAL.build.module.ExtensionElement"))) {
+                    console.log(window.firstElementChild);
+                    let dataArray = [];
+                    await this.addActors(dataArray, window.firstElementChild);
                     await Actor.create(dataArray);
                 }
 
+                this._updateProgress(1, 0, "Journals");
+                for (const window of build.querySelectorAll(CSS.escape("VASSAL.build.module.ChartWindow"))) {
+                    let dataArray = [];
+                    await this.addJournals(dataArray, window);
+                    console.log(dataArray);
+                    await JournalEntry.create(dataArray);
+                }
+
+                const sceneTotal = 3;
+                this._updateProgress(sceneTotal, 0, "Scenes");
                 for (const map of build.querySelectorAll(CSS.escape("VASSAL.build.module.Map"))) {
                     await this.importScene(map);
                 }
+                this._updateProgress(sceneTotal, 1, "Scenes");
                 for (const map of build.querySelectorAll(CSS.escape("VASSAL.build.module.PrivateMap"))) {
+                    await this.importScene(map);
+                }
+                this._updateProgress(sceneTotal, 2, "Scenes");
+                for (const map of build.querySelectorAll(CSS.escape("VASSAL.build.widget.WidgetMap"))) {
                     await this.importScene(map);
                 }
 
@@ -416,11 +475,6 @@ export default class VassalModuleImport extends FormApplication {
     }
 
     _folderExists(folder, zip) {
-        //return zip.folder(folder).length > 0); {
-        //    // Folder exists
-        //} else {
-        //    // Folder doesn't exist
-        //}
         const files = Object.values(zip.files).filter(file => {
             return file.dir && file.name.toLowerCase().includes(folder)
         });
@@ -442,8 +496,11 @@ export default class VassalModuleImport extends FormApplication {
         })
 
         Helpers.logger.log(`Extracting ${adventure.name} (${files.length} items)`);
+        var count = 0;
         await Helpers.asyncForEach(files, async (file) => {
+            this._updateProgress(files.length, count, "Import");
             await Helpers.importImage(file.name, zip, adventure);
+            count++;
         });
     }
 
