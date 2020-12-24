@@ -44,19 +44,21 @@ In order for the import to be re-runnable the existing scenes in the import scen
 
 Foundry defaults to 100px grid images. Some Vassal modules image sets are designed for a 64 pixel grid. Some are set to 75px. You'll need to select that as an option, or maybe you could set it on the scenes.
 
+Re-running an import will double deck card collections as well as actors and journals. So you may need to clear those out if you re-run an import.
+
 This module code base was originally from Adventure Import Export (https://github.com/cstadther/adventure-import-export).
 
 ## Recommended Modules
 
 * Moar Folders (https://github.com/KayelGee/moar-folders) - Actor imports are often several levels deep and Foundry has a limitation of 3 folder depth. Six seems to be enough. The data will import correctly but once you pass 3 folders it will start spamming the root folder heavily. Turning on this mod will fix.
 
-* Card Support (https://github.com/spacemandev-git/fvtt-card-support) - You will need to refresh the browser after an import before decks will work. You will likely want to make everyone a GM if you use this so that everyone can use the tile layer to manipulate the cards. Drag deck folders in the Journal tab onto the tile layer of a scene.
+* Card Support (https://github.com/spacemandev-git/fvtt-card-support) - You will need to refresh the browser after an import before decks will work. You will likely want to make everyone a GM if you use this so that everyone can use the tile layer to manipulate the decks. Drag deck folders in the Journal tab onto the tile layer of a scene.
 
 Foundry card support is not working well so be sure to bug/ask/encourage Atropos to add official support for card decks.
 
 ## Todo
 
-* Convert to typescript!
+* Convert to typescript
 * Dice so Nice integration
 * Dice Tray integration
 * .vsav file format import for better scene data

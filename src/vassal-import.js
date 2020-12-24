@@ -85,7 +85,24 @@ export default class VassalModuleImport extends FormApplication {
                 };
             });
         }
-        return image
+        return image;
+    }
+
+    extractImages(text) {
+        var images = [];
+        var parts = text.split(/[;,]+/); // split by ; and ,
+
+        // TODO: convert .gif to .png files
+        // part.endsWith(".gif") ||
+
+        if (Array.isArray(parts)) {
+            parts.forEach(part => {
+                if (part.endsWith(".png") || part.endsWith(".jpg") || part.endsWith(".jpeg") || part.endsWith(".svg")) {
+                    images.push(this.adventure.path + "/images/" + encodeURIComponent(part));
+                };
+            });
+        }
+        return images;
     }
 
     async createOrGetFolder(type, name, parentFolder) {
@@ -197,6 +214,20 @@ export default class VassalModuleImport extends FormApplication {
             }
             dataArray.push(data);
         }
+    }
+
+    addCard(dataArray, stack, token) {
+        this.addToken(dataArray, stack, token);
+        var data = dataArray[dataArray.length - 1];
+        var images = this.extractImages(token.innerHTML);
+        data.img = images[0];
+        data.flags = {
+            world: {
+                cardData: {},
+                cardBack: images[images.length - 1],
+                cardMacros: {}
+            }
+        };
     }
 
     addToken(dataArray, stack, token) {
@@ -313,7 +344,7 @@ export default class VassalModuleImport extends FormApplication {
             var cardArray = [];
             for (const token of stack.querySelectorAll(CSS.escape("VASSAL.build.widget.CardSlot"))) {
                 //this.addToken(dataArray, stack, token);
-                this.addToken(cardArray, stack, token);
+                this.addCard(cardArray, stack, token);
             }
             if (cardArray.length > 0) {
                 var deckFolder = await this.createOrGetFolder("JournalEntry", "Decks");
@@ -324,13 +355,6 @@ export default class VassalModuleImport extends FormApplication {
                 deckFolder = await this.createOrGetFolder("JournalEntry", stack.getAttribute("name"), deckFolder);
                 for (var card of cardArray) {
                     card.folder = deckFolder.id;
-                    card.flags = {
-                        world: {
-                            cardData: {},
-                            cardBack: card.img,
-                            cardMacros: {}
-                        }
-                    };
                 }
 
                 await JournalEntry.create(cardArray);
