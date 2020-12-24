@@ -38,13 +38,11 @@ export default class VassalModuleImport extends FormApplication {
             files,
             cssClass: "aie-importer-window"
         };
-
     }
 
     /** @override */
     activateListeners(html) {
         super.activateListeners(html);
-
         html.find(".dialog-button").on("click", this._dialogButton.bind(this));
     }
 
@@ -72,12 +70,12 @@ export default class VassalModuleImport extends FormApplication {
         // Command Target getType(): prototype; Americas - encounter - template	emb2; Activate; 2;;; 2;;; 2;;;; 1; false; 0; 0; americas - text - A7.svg; TheText; false; CardText;;; false;; 1; 1; true; 65, 130;; \	piece;;;; Americas 07 
         // GetState(): C1\	null; 0; 0; 607; 0
 
-        // for now we just skip all that shit and take the last that looks like an image.
+        // for now we just skip all that and take the last that looks like an image.
 
         var image;
         var parts = text.split(/[;,]+/); // split by ; and ,
 
-        // TODO: convert .gif to .png files FML
+        // TODO: convert .gif to .png files
         // part.endsWith(".gif") ||
 
         if (Array.isArray(parts)) {
@@ -262,7 +260,7 @@ export default class VassalModuleImport extends FormApplication {
         var folder = await this.createOrGetFolder("Scene", this.adventure.name);
         var mapName = map.getAttribute("mapName");
 
-        var data = { name: mapName, navigation: false, folder: folder.id, permission: { default: 3 }, tokenVision: false };
+        var data = { name: mapName, navigation: false, folder: folder.id, permission: { default: 3 }, tokenVision: false, tiles: [] };
         var color = map.getAttribute("backgroundcolor");
         if (color && color != "255,255,255")
             data.backgroundColor = this.rgbToHex(color);
@@ -314,7 +312,7 @@ export default class VassalModuleImport extends FormApplication {
         for (const stack of map.querySelectorAll(CSS.escape("VASSAL.build.module.map.DrawPile"))) {
             var cardArray = [];
             for (const token of stack.querySelectorAll(CSS.escape("VASSAL.build.widget.CardSlot"))) {
-                this.addToken(dataArray, stack, token);
+                //this.addToken(dataArray, stack, token);
                 this.addToken(cardArray, stack, token);
             }
             if (cardArray.length > 0) {
@@ -336,6 +334,16 @@ export default class VassalModuleImport extends FormApplication {
                 }
 
                 await JournalEntry.create(cardArray);
+
+                data.tiles.push({
+                    name: deckFolder.name,
+                    x: parseFloat(stack.getAttribute("x")) + data.width * 0.25 - (cardArray[0].width * this.mapPixelsPerUnit * 0.5),
+                    y: parseFloat(stack.getAttribute("y")) + data.height * 0.25 - (cardArray[0].height * this.mapPixelsPerUnit * 0.5),
+                    width: cardArray[0].width * this.mapPixelsPerUnit,
+                    height: cardArray[0].height * this.mapPixelsPerUnit,
+                    img: cardArray[0].img,
+                    "flags": { "world": { "deckID": deckFolder.id } },
+                });
             }
             for (const token of stack.querySelectorAll(CSS.escape("VASSAL.build.widget.PieceSlot"))) {
                 this.addToken(dataArray, stack, token);
@@ -346,10 +354,16 @@ export default class VassalModuleImport extends FormApplication {
             tokenData.x += data.width * 0.25;
             tokenData.y += data.height * 0.25;
 
-            if (tokenData.width <= 0)
+            if (tokenData.width <= 0) {
                 tokenData.width = null;
-            if (tokenData.height <= 0)
+            } else {
+                tokenData.x -= tokenData.width * 0.5;
+            }
+            if (tokenData.height <= 0) {
                 tokenData.height = null;
+            } else {
+                tokenData.y -= tokenData.height * 0.5;
+            }
         }
 
         data.tokens = dataArray;
@@ -456,12 +470,32 @@ export default class VassalModuleImport extends FormApplication {
                     await this.importScene(map);
                 }
 
-                // TODO: Import audio
-
                 // TODO: Import Dice
                 // https://gitlab.com/riccisi/foundryvtt-dice-so-nice/-/wikis/API/Customization
                 // 256x256 textures required
 
+                // this seems to need to be run every game load, because the API was designed to support systems.
+                // as a result will probably need to write a hook in the module that loads our dice data every run
+                //dice3d.addDicePreset({
+                //    type: "d20",
+                //    labels: [
+                //        "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
+                //        "systems/archmage/images/nat20.png"
+                //    ],
+                //    bumpMaps: [, , , , , , , , , , , , , , , , , , ,
+                //        "systems/archmage/images/nat20_BUMP.png"
+                //    ],
+                //    system: "13A"
+                //});
+                // https://github.com/StarWarsFoundryVTT/StarWarsFFG/pull/258/files
+                // https://github.com/Musrha/vampire-5th-dice-roller/blob/main/modules/vampire5th.js
+
+                // TODO: dice tray integration
+                // https://gitlab.com/asacolips-projects/foundry-mods/foundry-vtt-dice-calculator
+
+                // TODO: Import audio
+
+                // TODO: Import prototypes
                 //var prototypes = ["VASSAL.launch.BasicModule"]["VASSAL.build.module.PrototypesContainer"]["VASSAL.build.module.PrototypeDefinition"];
                 //console.log(prototypes);
 

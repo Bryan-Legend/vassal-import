@@ -11,22 +11,23 @@ There are over 2300 board games available at http://www.vassalengine.org/wiki/Ca
 Star Wars: Imperial Assault - http://www.vassalengine.org/wiki/Module:Star_Wars:_Imperial_Assault
 
 Gloomhaven - http://www.vassalengine.org/wiki/Module:Gloomhaven
-![Gloomhaven](img/Gloomhaven.PNG)
+![Gloomhaven](img/Gloomhaven.png)
 
 Terraforming Mars - http://www.vassalengine.org/wiki/Module:Terraforming_Mars
+![Terraforming Mars](img/Terraforming Mars.jpg)
 
 Go - http://www.vassalengine.org/wiki/Module:Go
-![Go](img/Go.PNG)
+![Go](img/Go.png)
 
 Twilight Imperium - http://www.vassalengine.org/wiki/Module:Twilight_Imperium_(third_Edition)
 
 Twilight Struggle - http://www.vassalengine.org/wiki/Module:Twilight_Struggle
-![Twilight Struggle](img/Twilight%20Struggle.PNG)
+![Twilight Struggle](img/Twilight%20Struggle.png)
 
 Arkham Horror - http://www.vassalengine.org/wiki/Module:Arkham_Horror
 
 Dominion - http://www.vassalengine.org/wiki/Module:Dominion
-![Dominion](img/Dominion.PNG)
+![Dominion](img/Dominion.png)
 
 Star Wars: X-Wing Miniatures Game - http://www.vassalengine.org/wiki/Module:Star_Wars:_X-Wing_Miniatures_Game
 
@@ -49,18 +50,21 @@ This module code base was originally from Adventure Import Export (https://githu
 
 * Moar Folders (https://github.com/KayelGee/moar-folders) - Actor imports are often several levels deep and Foundry has a limitation of 3 folder depth. Six seems to be enough. The data will import correctly but once you pass 3 folders it will start spamming the root folder heavily. Turning on this mod will fix.
 
+* Card Support (https://github.com/spacemandev-git/fvtt-card-support) - You will need to refresh the browser after an import before decks will work. You will likely want to make everyone a GM if you use this so that everyone can use the tile layer to manipulate the cards. Drag deck folders in the Journal tab onto the tile layer of a scene.
+
+Foundry card support is not working well so be sure to bug/ask/encourage Atropos to add official support for card decks.
+
 ## Todo
 
 * Convert to typescript!
 * Dice so Nice integration
-* Cards Support integration
+* Dice Tray integration
 * .vsav file format import for better scene data
 * prototype import for better token data
 * gif image conversion to webp since foundry does not support gif at all
 * playlist generator for audio
-* maybe use extracted fonts somehow
+* Use extracted fonts somehow
 * Recommend a default game system. Maybe do some stat importing or something.
-* macro importing (lol)
-* direct downloading vmods via url.
+* Direct downloading vmods via url.
 * Add a scene for each map picker option.
 * Import grid config data.
