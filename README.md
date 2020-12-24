@@ -11,23 +11,23 @@ There are over 2300 board games available at http://www.vassalengine.org/wiki/Ca
 Star Wars: Imperial Assault - http://www.vassalengine.org/wiki/Module:Star_Wars:_Imperial_Assault
 
 Gloomhaven - http://www.vassalengine.org/wiki/Module:Gloomhaven
-![Gloomhaven](img/Gloomhaven.png)
+![Gloomhaven](img/Gloomhaven.PNG)
 
 Terraforming Mars - http://www.vassalengine.org/wiki/Module:Terraforming_Mars
-![Terraforming Mars](img/Terraforming%20Mars.jpg)
+![Terraforming Mars](img/Terraforming%20Mars.JPG)
 
 Go - http://www.vassalengine.org/wiki/Module:Go
-![Go](img/Go.png)
+![Go](img/Go.PNG)
 
 Twilight Imperium - http://www.vassalengine.org/wiki/Module:Twilight_Imperium_(third_Edition)
 
 Twilight Struggle - http://www.vassalengine.org/wiki/Module:Twilight_Struggle
-![Twilight Struggle](img/Twilight%20Struggle.png)
+![Twilight Struggle](img/Twilight%20Struggle.PNG)
 
 Arkham Horror - http://www.vassalengine.org/wiki/Module:Arkham_Horror
 
 Dominion - http://www.vassalengine.org/wiki/Module:Dominion
-![Dominion](img/Dominion.png)
+![Dominion](img/Dominion.PNG)
 
 Star Wars: X-Wing Miniatures Game - http://www.vassalengine.org/wiki/Module:Star_Wars:_X-Wing_Miniatures_Game
 
