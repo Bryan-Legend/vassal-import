@@ -14,7 +14,7 @@ Gloomhaven - http://www.vassalengine.org/wiki/Module:Gloomhaven
 ![Gloomhaven](img/Gloomhaven.png)
 
 Terraforming Mars - http://www.vassalengine.org/wiki/Module:Terraforming_Mars
-![Terraforming Mars](img/Terraforming Mars.jpg)
+![Terraforming Mars](img/Terraforming%20Mars.jpg)
 
 Go - http://www.vassalengine.org/wiki/Module:Go
 ![Go](img/Go.png)
