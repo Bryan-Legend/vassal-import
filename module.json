@@ -1,7 +1,7 @@
 {
   "name": "vassal-import",
   "title": "Vassal Board Game Module Importer",
-  "description": "Import Vassal board game .vmod modules",
+  "description": "Imports Vassal board game modules",
   "version": "0.5.0",
   "author": "Bryan Livingston",
   "minimumCoreVersion": "0.7.9",
