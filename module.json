@@ -1,7 +1,7 @@
 {
   "name": "vassal-import",
   "title": "Vassal Board Game Module Importer",
-  "description": "Import Vassal board game .vmod modules into Foundry. Over 2300 board games available at http://www.vassalengine.org/wiki/Category:Modules. Modules there have the consent of the board game publishers.",
+  "description": "Import Vassal board game .vmod modules",
   "version": "0.5.0",
   "author": "Bryan Livingston",
   "minimumCoreVersion": "0.7.9",
