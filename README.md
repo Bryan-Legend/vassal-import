@@ -2,8 +2,6 @@
 
 A module for importing Vassal Board Game VMod files into Foundry.
 
-There are over 2300 board games available at http://www.vassalengine.org/wiki/Category:Modules. The modules listed there have the consent of the board game publishers.
-
 **MANIFEST URL: https://raw.githubusercontent.com/Bryan-Legend/vassal-import/master/module.json**
 
 ### Screenshots
