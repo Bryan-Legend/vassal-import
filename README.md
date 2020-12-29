@@ -32,8 +32,6 @@ This module code base was originally from Adventure Import Export (https://githu
 
 * Card Support (https://github.com/spacemandev-git/fvtt-card-support) - You will need to refresh the browser after an import before decks will work. You will likely want to make everyone a GM if you use this so that everyone can use the tile layer to manipulate the decks. Drag deck folders in the Journal tab onto the tile layer of a scene.
 
-Foundry card support is not working well so be sure to bug/ask/encourage Atropos to add official support for card decks.
-
 ## Todo
 
 * Convert to typescript
