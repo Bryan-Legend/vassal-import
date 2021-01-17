@@ -18,7 +18,7 @@ Importing will create a scene and actor folder of the name of the module.
 In order for the import to be re-runnable the existing scenes in the import scene folder will be deleted.
 Re-running an import will double deck card collections, actors, and journals. So you may need to clear those out before you re-run an import.
 
-![Settings](img/Settings.JPG)
+![Settings](img/Settings.jpg)
 
 Foundry defaults to 100px grid images. Some Vassal modules image sets are designed for a 64 pixel grid. Some are set to 75px. You'll need to select that as an option, or maybe you could set it on the scenes.
 
