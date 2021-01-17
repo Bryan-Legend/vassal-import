@@ -1,4 +1,4 @@
-# Vassal Import
+# Vassal Board Game Module Importer for Foundry VTT
 
 A module for importing Vassal Board Game modules into http://foundryvtt.com/.
 
