@@ -1,6 +1,6 @@
 # Vassal Import
 
-A module for importing Vassal Board Game modules into Foundry VTT.
+A module for importing Vassal Board Game modules into http://foundryvtt.com/.
 
 **MANIFEST URL: https://raw.githubusercontent.com/Bryan-Legend/vassal-import/master/module.json**
 
