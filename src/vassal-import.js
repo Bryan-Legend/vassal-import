@@ -110,7 +110,7 @@ export default class VassalModuleImport extends FormApplication {
             parentFolder = null;
         }
 
-        var result = await game.folders.entities.find(f => f.type == type && f.data.name == name && f.parent === parentFolder);
+        var result = await game.folders.find(f => f.type == type && f.data.name == name && f.parent === parentFolder);
         if (result === undefined) {
             console.log("Creating folder " + name + " in parent " + parentFolder?.name);
             var data = { name: name, type: type, parent: null, sorting: "m", permission: { default: 2 } };
@@ -328,7 +328,7 @@ export default class VassalModuleImport extends FormApplication {
             break;
         }
 
-        var existing = game.scenes.entities.find(m => m.name == mapName && m.folder == folder);
+        var existing = game.scenes.find(m => m.name == mapName && m.folder == folder);
         if (existing) {
             await existing.delete();
         }
@@ -347,12 +347,12 @@ export default class VassalModuleImport extends FormApplication {
                 this.addCard(cardArray, stack, token);
             }
             if (cardArray.length > 0) {
-                var deckFolder = await this.createOrGetFolder("JournalEntry", "Decks");
+                var deckFolder = await this.createOrGetFolder("Cards", this.adventure.name);
 
                 // Card support doesn't allow nested folders
                 //deckFolder = await this.createOrGetFolder("JournalEntry", this.adventure.name, deckFolder);
 
-                deckFolder = await this.createOrGetFolder("JournalEntry", stack.getAttribute("name"), deckFolder);
+                deckFolder = await this.createOrGetFolder("Cards", stack.getAttribute("name"), deckFolder);
                 for (var card of cardArray) {
                     card.folder = deckFolder.id;
                 }
