@@ -112,7 +112,7 @@ export default class VassalModuleImport extends FormApplication {
 
         var result = await game.folders.find(f => f.type == type && f.data.name == name && f.parent === parentFolder);
         if (result === undefined) {
-            console.log("Creating folder " + name + " in parent " + parentFolder?.name);
+            //console.log("Creating folder " + name + " in parent " + parentFolder?.name);
             var data = { name: name, type: type, parent: null, sorting: "m", permission: { default: 2 } };
             if (parentFolder !== null)
                 data.parent = parentFolder.id;
@@ -216,18 +216,27 @@ export default class VassalModuleImport extends FormApplication {
         }
     }
 
-    addCard(dataArray, stack, token) {
+    addCard(dataArray, stack, token, origin) {
         this.addToken(dataArray, stack, token);
         var data = dataArray[dataArray.length - 1];
         var images = this.extractImages(token.innerHTML);
         data.img = images[0];
-        data.flags = {
-            world: {
-                cardData: {},
-                cardBack: images[images.length - 1],
-                cardMacros: {}
+        data.origin = origin;
+
+        data.faces = [
+            {
+                "name": data.name,
+                "img": images[0],
+                "text": ""
             }
-        };
+        ];
+    //    data.flags = {
+    //        world: {
+    //            cardData: {},
+    //            cardBack: images[images.length - 1],
+    //            cardMacros: {}
+    //        }
+    //    };
     }
 
     addToken(dataArray, stack, token) {
@@ -341,34 +350,55 @@ export default class VassalModuleImport extends FormApplication {
         }
 
         for (const stack of map.querySelectorAll(CSS.escape("VASSAL.build.module.map.DrawPile"))) {
+            var deckFolder = await this.createOrGetFolder("Cards", this.adventure.name);
             var cardArray = [];
             for (const token of stack.querySelectorAll(CSS.escape("VASSAL.build.widget.CardSlot"))) {
                 //this.addToken(dataArray, stack, token);
-                this.addCard(cardArray, stack, token);
+                this.addCard(cardArray, stack, token, deckFolder.id);
             }
+
+            // Card support doesn't allow nested folders
+            //deckFolder = await this.createOrGetFolder("JournalEntry", this.adventure.name, deckFolder);
+
+            var deckData = {
+                name: stack.getAttribute("name"),
+                type: "deck",
+                folder: deckFolder.id,
+                //                    x: parseFloat(stack.getAttribute("x")) + data.width * 0.25 - (cardArray[0].width * this.mapPixelsPerUnit * 0.5),
+                //                    y: parseFloat(stack.getAttribute("y")) + data.height * 0.25 - (cardArray[0].height * this.mapPixelsPerUnit * 0.5),
+                //                    width: cardArray[0].width * this.mapPixelsPerUnit,
+                //                    height: cardArray[0].height * this.mapPixelsPerUnit,
+                cards: cardArray,
+//                "flags": { "world": { "deckID": deckFolder.id } },
+            };
+
             if (cardArray.length > 0) {
-                var deckFolder = await this.createOrGetFolder("Cards", this.adventure.name);
-
-                // Card support doesn't allow nested folders
-                //deckFolder = await this.createOrGetFolder("JournalEntry", this.adventure.name, deckFolder);
-
-                deckFolder = await this.createOrGetFolder("Cards", stack.getAttribute("name"), deckFolder);
-                for (var card of cardArray) {
-                    card.folder = deckFolder.id;
-                }
-
-                await JournalEntry.create(cardArray);
-
-                data.tiles.push({
-                    name: deckFolder.name,
-                    x: parseFloat(stack.getAttribute("x")) + data.width * 0.25 - (cardArray[0].width * this.mapPixelsPerUnit * 0.5),
-                    y: parseFloat(stack.getAttribute("y")) + data.height * 0.25 - (cardArray[0].height * this.mapPixelsPerUnit * 0.5),
-                    width: cardArray[0].width * this.mapPixelsPerUnit,
-                    height: cardArray[0].height * this.mapPixelsPerUnit,
-                    img: cardArray[0].img,
-                    "flags": { "world": { "deckID": deckFolder.id } },
-                });
+                deckData.img = cardArray[0].img;
             }
+
+            var deck = await Cards.create(deckData);
+            console.log(deckData);
+            console.log(deck);
+
+            //    deckFolder = await this.createOrGetFolder("Cards", stack.getAttribute("name"), deckFolder);
+            //    for (var card of cardArray) {
+            //        card.folder = deckFolder.id;
+            //    }
+
+            //    await JournalEntry.create(cardArray);
+
+            //    data.tiles.push({
+            //        name: deckFolder.name,
+            //        x: parseFloat(stack.getAttribute("x")) + data.width * 0.25 - (cardArray[0].width * this.mapPixelsPerUnit * 0.5),
+            //        y: parseFloat(stack.getAttribute("y")) + data.height * 0.25 - (cardArray[0].height * this.mapPixelsPerUnit * 0.5),
+            //        width: cardArray[0].width * this.mapPixelsPerUnit,
+            //        height: cardArray[0].height * this.mapPixelsPerUnit,
+            //        img: cardArray[0].img,
+            //        "flags": { "world": { "deckID": deckFolder.id } },
+            //    });
+
+            //}
+
             for (const token of stack.querySelectorAll(CSS.escape("VASSAL.build.widget.PieceSlot"))) {
                 this.addToken(dataArray, stack, token);
             }
@@ -394,8 +424,8 @@ export default class VassalModuleImport extends FormApplication {
 
         console.log(`Creating Scene ${mapName} ` + data.img);
         var newScene = await Scene.create(data);
-        console.log(data);
-        console.log(newScene);
+    //    console.log(data);
+    //    console.log(newScene);
     }
 
     async _dialogButton(event) {
@@ -466,7 +496,7 @@ export default class VassalModuleImport extends FormApplication {
                 }
                 this._updateProgress(actorTotal, 1, "Actors");
                 for (const window of build.querySelectorAll(CSS.escape("VASSAL.build.module.ExtensionElement"))) {
-                    console.log(window.firstElementChild);
+                    //console.log(window.firstElementChild);
                     let dataArray = [];
                     await this.addActors(dataArray, window.firstElementChild);
                     await Actor.create(dataArray);
@@ -476,7 +506,7 @@ export default class VassalModuleImport extends FormApplication {
                 for (const window of build.querySelectorAll(CSS.escape("VASSAL.build.module.ChartWindow"))) {
                     let dataArray = [];
                     await this.addJournals(dataArray, window);
-                    console.log(dataArray);
+                    //console.log(dataArray);
                     await JournalEntry.create(dataArray);
                 }
 
