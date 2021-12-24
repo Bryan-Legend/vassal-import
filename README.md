@@ -8,9 +8,9 @@ A module for importing Vassal board game modules into http://foundryvtt.com/.
 
 ![Gloomhaven](img/Gloomhaven.png)
 
-![Terraforming Mars](img/Terraforming Mars.jpg)
+![Terraforming Mars](img/Terraforming+Mars.jpg)
 
-![Twilight Struggle](img/Twilight Struggle.png)
+![Twilight Struggle](img/Twilight+Struggle.png)
 
 This module has been updated to support the new official foundry card system. (See https://foundryvtt.com/article/cards/)
 
