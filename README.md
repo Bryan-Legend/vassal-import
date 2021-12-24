@@ -4,6 +4,16 @@ A module for importing Vassal board game modules into http://foundryvtt.com/.
 
 **MANIFEST URL: https://raw.githubusercontent.com/Bryan-Legend/vassal-import/master/module.json**
 
+![Dominion](img/Dominion.png)
+
+![Gloomhaven](img/Gloomhaven.png)
+
+![Terraforming Mars](img/Terraforming Mars.jpg)
+
+![Twilight Struggle](img/Twilight Struggle.png)
+
+This module has been updated to support the new official foundry card system. (See https://foundryvtt.com/article/cards/)
+
 ## How To Use
 
 ### Import
@@ -12,7 +22,7 @@ To import a file, first install the module and go to the module settings to set 
 
 ![Usage](img/Usage.JPG)
 
-## Important Notes
+## WARNING
 
 Importing will create a scene and actor folder of the name of the module.
 In order for the import to be re-runnable the existing scenes in the import scene folder will be deleted.
@@ -24,22 +34,19 @@ Foundry defaults to 100px grid images. Some Vassal modules image sets are design
 
 This module code base was originally from Adventure Import Export (https://github.com/cstadther/adventure-import-export).
 
-## Recommended Modules
+## Recommended Module
 
 * Moar Folders (https://github.com/KayelGee/moar-folders) - Actor imports are often several levels deep and Foundry has a limitation of 3 folder depth. Six seems to be enough. The data will import correctly but once you pass 3 folders it will start spamming the root folder heavily. Turning on this mod will fix.
-
-* Card Support (https://github.com/spacemandev-git/fvtt-card-support) - You will need to refresh the browser after an import before decks will work. You will likely want to make everyone a GM if you use this so that everyone can use the tile layer to manipulate the decks. Drag deck folders in the Journal tab onto the tile layer of a scene.
 
 ## Todo
 
 * Convert to typescript
-* Dice so Nice integration
+* Dice So Nice integration
 * Dice Tray integration
 * .vsav file format import for better scene data
 * prototype import for better token data
-* gif image conversion to webp since foundry does not support gif at all
+* gif image conversion to webp since foundry does not support gifs at all
 * playlist generator for audio
 * Use extracted fonts somehow
-* Recommend a default game system. Maybe do some stat importing or something.
 * Add a scene for each map picker option.
 * Import grid config data.
