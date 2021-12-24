@@ -216,29 +216,6 @@ export default class VassalModuleImport extends FormApplication {
         }
     }
 
-    addCard(dataArray, stack, token, origin) {
-        this.addToken(dataArray, stack, token);
-        var data = dataArray[dataArray.length - 1];
-        var images = this.extractImages(token.innerHTML);
-        data.img = images[0];
-        data.origin = origin;
-
-        data.faces = [
-            {
-                "name": data.name,
-                "img": images[0],
-                "text": ""
-            }
-        ];
-    //    data.flags = {
-    //        world: {
-    //            cardData: {},
-    //            cardBack: images[images.length - 1],
-    //            cardMacros: {}
-    //        }
-    //    };
-    }
-
     addToken(dataArray, stack, token) {
         var data = {
             name: stack.getAttribute("name"),
@@ -350,11 +327,27 @@ export default class VassalModuleImport extends FormApplication {
         }
 
         for (const stack of map.querySelectorAll(CSS.escape("VASSAL.build.module.map.DrawPile"))) {
+            //console.log(stack);
+
             var deckFolder = await this.createOrGetFolder("Cards", this.adventure.name);
             var cardArray = [];
             for (const token of stack.querySelectorAll(CSS.escape("VASSAL.build.widget.CardSlot"))) {
-                //this.addToken(dataArray, stack, token);
-                this.addCard(cardArray, stack, token, deckFolder.id);
+                var images = this.extractImages(token.innerHTML);
+                var cardData = {
+                    name: token.getAttribute("entryName"),
+                    origin: deckFolder.id,
+                    face: 0,
+                    faces: [{
+                        "name": token.getAttribute("entryName"),
+                        "img": images[0],
+                    }],
+                    back: {
+                        "img": images[images.length - 1]
+                    }
+                };
+                if (!cardData.name)
+                    cardData.name = stack.getAttribute("name");
+                cardArray.push(cardData);
             }
 
             // Card support doesn't allow nested folders
@@ -362,23 +355,23 @@ export default class VassalModuleImport extends FormApplication {
 
             var deckData = {
                 name: stack.getAttribute("name"),
-                type: "deck",
+                type: cardArray.length > 0 ? "deck" : "pile",
                 folder: deckFolder.id,
                 //                    x: parseFloat(stack.getAttribute("x")) + data.width * 0.25 - (cardArray[0].width * this.mapPixelsPerUnit * 0.5),
                 //                    y: parseFloat(stack.getAttribute("y")) + data.height * 0.25 - (cardArray[0].height * this.mapPixelsPerUnit * 0.5),
                 //                    width: cardArray[0].width * this.mapPixelsPerUnit,
                 //                    height: cardArray[0].height * this.mapPixelsPerUnit,
                 cards: cardArray,
-//                "flags": { "world": { "deckID": deckFolder.id } },
+                //                "flags": { "world": { "deckID": deckFolder.id } },
             };
 
             if (cardArray.length > 0) {
-                deckData.img = cardArray[0].img;
+                deckData.img = cardArray[0].faces[0].img;
             }
 
             var deck = await Cards.create(deckData);
-            console.log(deckData);
-            console.log(deck);
+            //console.log(deckData);
+            //console.log(deck);
 
             //    deckFolder = await this.createOrGetFolder("Cards", stack.getAttribute("name"), deckFolder);
             //    for (var card of cardArray) {
@@ -424,8 +417,8 @@ export default class VassalModuleImport extends FormApplication {
 
         console.log(`Creating Scene ${mapName} ` + data.img);
         var newScene = await Scene.create(data);
-    //    console.log(data);
-    //    console.log(newScene);
+        //    console.log(data);
+        //    console.log(newScene);
     }
 
     async _dialogButton(event) {
