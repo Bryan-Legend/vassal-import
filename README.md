@@ -9,13 +9,13 @@ There are **over Vassal 2,600 board game modules freely available at https://vas
 #### [Dominion](https://vassalengine.org/wiki/Module:Dominion)
 ![Dominion](img/Dominion.png)
 
-#### Gloomhaven
+#### [Gloomhaven](https://vassalengine.org/wiki/Module:Gloomhaven)
 ![Gloomhaven](img/Gloomhaven.png)
 
-#### Terraforming Mars
+#### [Terraforming Mars](https://vassalengine.org/wiki/Module:Terraforming_Mars)
 ![Terraforming Mars](img/TerraformingMars.jpg)
 
-#### Twilight Struggle
+#### [Twilight Struggle](https://vassalengine.org/wiki/Module:Twilight_Struggle)
 ![Twilight Struggle](img/TwilightStruggle.png)
 
 This module has been updated to support the new official foundry card system. (https://foundryvtt.com/article/cards/)
