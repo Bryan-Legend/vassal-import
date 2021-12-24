@@ -4,9 +4,9 @@ A module for importing Vassal board game modules into http://foundryvtt.com/.
 
 **MANIFEST URL: https://raw.githubusercontent.com/Bryan-Legend/vassal-import/master/module.json**
 
-There are over Vassal 2,600 board game modules freely available at https://vassalengine.org/wiki/Category:Modules
+There are *over Vassal 2,600 board game modules freely available* at https://vassalengine.org/wiki/Category:Modules
 
-### Dominion
+#### Dominion
 ![Dominion](img/Dominion.png)
 
 #### Gloomhaven
@@ -15,14 +15,12 @@ There are over Vassal 2,600 board game modules freely available at https://vassa
 #### Terraforming Mars
 ![Terraforming Mars](img/TerraformingMars.jpg)
 
-##### Twilight Struggle
+#### Twilight Struggle
 ![Twilight Struggle](img/TwilightStruggle.png)
 
 This module has been updated to support the new official foundry card system. (https://foundryvtt.com/article/cards/)
 
 ## How To Use
-
-### Import
 
 To import a file, first install the module and go to the module settings to set an import path within the data location.  If you click `Vassal Import` this will create the folder location on the server where you can place the vassal file.  Place the file in the folder and go back to the module settings (you may have to close the settings and reopen for the module to populate the file selector dropdown).  Select the file to import and click import.
 
@@ -38,11 +36,9 @@ Re-running an import will double deck card collections, actors, and journals. So
 
 Foundry defaults to 100px grid images. Some Vassal modules image sets are designed for a 64 pixel grid. Some are set to 75px. You'll need to select that as an option, or maybe you could set it on the scenes.
 
-This module code base was originally from Adventure Import Export (https://github.com/cstadther/adventure-import-export).
-
 ## Recommended Module
 
-* Moar Folders (https://github.com/KayelGee/moar-folders) - Actor imports are often several levels deep and Foundry has a limitation of 3 folder depth. Six seems to be enough. The data will import correctly but once you pass 3 folders it will start spamming the root folder heavily. Turning on this mod will fix.
+* Moar Folders (https://github.com/KayelGee/moar-folders) - Actor imports are often several levels deep and Foundry has an arbitrary limitation of 3 folder depth. Six seems to be enough. The data will import correctly but once you pass 3 folders it will start spamming the root folder heavily. Turning on this mod will fix.
 
 ## Todo
 
