@@ -350,9 +350,6 @@ export default class VassalModuleImport extends FormApplication {
                 cardArray.push(cardData);
             }
 
-            // Card support doesn't allow nested folders
-            //deckFolder = await this.createOrGetFolder("JournalEntry", this.adventure.name, deckFolder);
-
             var deckData = {
                 name: stack.getAttribute("name"),
                 type: cardArray.length > 0 ? "deck" : "pile",
@@ -362,7 +359,6 @@ export default class VassalModuleImport extends FormApplication {
                 //                    width: cardArray[0].width * this.mapPixelsPerUnit,
                 //                    height: cardArray[0].height * this.mapPixelsPerUnit,
                 cards: cardArray,
-                //                "flags": { "world": { "deckID": deckFolder.id } },
             };
 
             if (cardArray.length > 0) {
@@ -372,25 +368,6 @@ export default class VassalModuleImport extends FormApplication {
             var deck = await Cards.create(deckData);
             //console.log(deckData);
             //console.log(deck);
-
-            //    deckFolder = await this.createOrGetFolder("Cards", stack.getAttribute("name"), deckFolder);
-            //    for (var card of cardArray) {
-            //        card.folder = deckFolder.id;
-            //    }
-
-            //    await JournalEntry.create(cardArray);
-
-            //    data.tiles.push({
-            //        name: deckFolder.name,
-            //        x: parseFloat(stack.getAttribute("x")) + data.width * 0.25 - (cardArray[0].width * this.mapPixelsPerUnit * 0.5),
-            //        y: parseFloat(stack.getAttribute("y")) + data.height * 0.25 - (cardArray[0].height * this.mapPixelsPerUnit * 0.5),
-            //        width: cardArray[0].width * this.mapPixelsPerUnit,
-            //        height: cardArray[0].height * this.mapPixelsPerUnit,
-            //        img: cardArray[0].img,
-            //        "flags": { "world": { "deckID": deckFolder.id } },
-            //    });
-
-            //}
 
             for (const token of stack.querySelectorAll(CSS.escape("VASSAL.build.widget.PieceSlot"))) {
                 this.addToken(dataArray, stack, token);
