@@ -6,7 +6,7 @@ A module for importing Vassal board game modules into http://foundryvtt.com/.
 
 There are **over Vassal 2,600 board game modules freely available at https://vassalengine.org/wiki/Category:Modules**
 
-#### Dominion
+#### [Dominion](https://vassalengine.org/wiki/Module:Dominion)
 ![Dominion](img/Dominion.png)
 
 #### Gloomhaven
