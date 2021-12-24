@@ -4,15 +4,21 @@ A module for importing Vassal board game modules into http://foundryvtt.com/.
 
 **MANIFEST URL: https://raw.githubusercontent.com/Bryan-Legend/vassal-import/master/module.json**
 
+There are over Vassal 2,600 board game modules freely available at https://vassalengine.org/wiki/Category:Modules
+
+### Dominion
 ![Dominion](img/Dominion.png)
 
+### Gloomhaven
 ![Gloomhaven](img/Gloomhaven.png)
 
+### Terraforming Mars
 ![Terraforming Mars](img/TerraformingMars.jpg)
 
-![TwilightStruggle]("img/TwilightStruggle.png")
+### Twilight Struggle
+![Twilight Struggle](img/TwilightStruggle.png)
 
-This module has been updated to support the new official foundry card system. (See https://foundryvtt.com/article/cards/)
+This module has been updated to support the new official foundry card system. (https://foundryvtt.com/article/cards/)
 
 ## How To Use
 
