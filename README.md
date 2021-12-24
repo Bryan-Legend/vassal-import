@@ -4,7 +4,7 @@ A module for importing Vassal board game modules into http://foundryvtt.com/.
 
 **MANIFEST URL: https://raw.githubusercontent.com/Bryan-Legend/vassal-import/master/module.json**
 
-There are *over Vassal 2,600 board game modules freely available* at https://vassalengine.org/wiki/Category:Modules
+There are **over Vassal 2,600 board game modules freely available at https://vassalengine.org/wiki/Category:Modules**
 
 #### Dominion
 ![Dominion](img/Dominion.png)
