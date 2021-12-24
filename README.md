@@ -9,13 +9,13 @@ There are over Vassal 2,600 board game modules freely available at https://vassa
 ### Dominion
 ![Dominion](img/Dominion.png)
 
-### Gloomhaven
+#### Gloomhaven
 ![Gloomhaven](img/Gloomhaven.png)
 
-### Terraforming Mars
+#### Terraforming Mars
 ![Terraforming Mars](img/TerraformingMars.jpg)
 
-### Twilight Struggle
+##### Twilight Struggle
 ![Twilight Struggle](img/TwilightStruggle.png)
 
 This module has been updated to support the new official foundry card system. (https://foundryvtt.com/article/cards/)
