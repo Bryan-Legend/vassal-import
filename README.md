@@ -4,7 +4,7 @@ A module for importing Vassal board game modules into http://foundryvtt.com/.
 
 **MANIFEST URL: https://raw.githubusercontent.com/Bryan-Legend/vassal-import/master/module.json**
 
-Foundry Gaming, LLC has declined to include this module in the official module listing service, so you will need to manually add it usint the manifest url above.
+Foundry Gaming, LLC has declined to include this module in the official module listing service, so you will need to manually add it using the manifest url above.
 
 There are **over Vassal 2,600 board game modules freely available at https://vassalengine.org/wiki/Category:Modules**. Vassal modules generally have the consent of the board game publishers to exist. Many board game publishers (including Avalon Hill, Gloomhaven, and Fantasy Flight Games) have very friendly policies towards VTT usage, unlike some other greedy corporations that we all know about.
 
